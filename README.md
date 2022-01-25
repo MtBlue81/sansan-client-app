@@ -1,8 +1,10 @@
 ## Sansan Client Viewer
+List the business cards you have registered in Sansan. 
 
 ## Install
-Download release package.
-https://github.com/MtBlue81/sansan-client-app/releases
+- Download release package.(for Mac only)  
+  https://github.com/MtBlue81/sansan-client-app/releases
+- Set it as a permitted app or right-click to open it.
 
 ## Development
 Clone the repo and install dependencies:
@@ -33,3 +35,4 @@ npm run package
 
 ## TODO
 - [ ] use main process for fetch API.
+- [ ] pagination.
