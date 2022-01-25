@@ -2,6 +2,7 @@
 
 ## Install
 Download release package.
+https://github.com/MtBlue81/sansan-client-app/releases
 
 ## Development
 Clone the repo and install dependencies:
@@ -31,4 +32,4 @@ npm run package
 ```
 
 ## TODO
-- [] use main process for fetch API.
+- [ ] use main process for fetch API.
