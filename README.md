@@ -34,5 +34,5 @@ npm run package
 ```
 
 ## TODO
-- [ ] use main process for fetch API.
+- [x] use main process for fetch API.
 - [ ] pagination.
