@@ -14,7 +14,7 @@ export default () => {
       fetchBizCardList({ apiKey })
         .then((value) => value && setCards(value.data))
         .catch((e) => {
-          if (e.message === 'no auth') {
+          if (e.message === 'No auth') {
             clearApiKey();
             navigate('/apiKey', { replace: true });
           }

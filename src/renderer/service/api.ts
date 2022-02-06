@@ -1,18 +1,5 @@
 import type { BizCard } from '../models/BizCard';
 
-const handleError = (res: Response) => {
-  switch (res.status) {
-    case 404:
-      throw new Error('not found');
-    case 429:
-      throw new Error('limit');
-    case 401:
-      throw new Error('no auth');
-    default:
-      throw new Error();
-  }
-};
-
 const localStorageKey = 'sansan-api-key';
 // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
 let _apiKey: string | undefined;
@@ -49,10 +36,6 @@ export const clearApiKey = () => {
 type ApiConfig = {
   apiKey?: string;
 };
-type Pagination = {
-  hasMore: boolean;
-  nextPageToken: string;
-};
 
 type FetchBizCardList = (config: ApiConfig) => Promise<
   | (Pagination & {
@@ -65,17 +48,7 @@ const isElectron = 'electron' in window;
 
 export const fetchBizCardList: FetchBizCardList = async ({ apiKey }) => {
   if (!apiKey || !isElectron) return;
-  // eslint-disable-next-line consistent-return
-  return fetch('https://api.sansan.com/v3.2/bizCards/search', {
-    headers: {
-      'X-Sansan-Api-Key': apiKey,
-    },
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    }
-    return handleError(res);
-  });
+  return window.electron.sansanClient.fetchBizCardList(apiKey);
 };
 
 type FetchBizCardImage = (id: Id, config: ApiConfig) => Promise<string>;
@@ -90,16 +63,7 @@ export const fetchBizCardImage: FetchBizCardImage = async (id, { apiKey }) => {
     });
   }
 
-  return fetch(`https://api.sansan.com/v3.2/bizCards/${id}/image`, {
-    headers: {
-      'X-Sansan-Api-Key': apiKey,
-    },
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.blob();
-      }
-      return handleError(res);
-    })
-    .then((blob) => URL.createObjectURL(blob));
+  return window.electron.sansanClient.fetchBizCardImage(id, apiKey).then((base64) => {
+    return `data:image/jpeg;base64,${base64}`;
+  });
 };

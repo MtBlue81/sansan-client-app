@@ -1,23 +1,23 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
+const getErrorMessage =  (invokeMethod, e) => {
+  const msg = e.message.replace(new RegExp(`^.*'${invokeMethod}':\s*`), '');
+  return msg.trim();
+}
+
+const callIpcMethod = (invokeMethod, ...args) => {
+  return ipcRenderer.invoke(invokeMethod, ...args).catch(e => {
+    throw new Error(getErrorMessage(invokeMethod, e));
+  });
+}
+
 contextBridge.exposeInMainWorld('electron', {
-  ipcRenderer: {
-    myPing() {
-      ipcRenderer.send('ipc-example', 'ping');
+  sansanClient: {
+    fetchBizCardList(...args) {
+      return callIpcMethod('fetchBizCardList', ...args);
     },
-    on(channel, func) {
-      const validChannels = ['ipc-example'];
-      if (validChannels.includes(channel)) {
-        // Deliberately strip event as it includes `sender`
-        ipcRenderer.on(channel, (event, ...args) => func(...args));
-      }
-    },
-    once(channel, func) {
-      const validChannels = ['ipc-example'];
-      if (validChannels.includes(channel)) {
-        // Deliberately strip event as it includes `sender`
-        ipcRenderer.once(channel, (event, ...args) => func(...args));
-      }
+    fetchBizCardImage(...args) {
+      return callIpcMethod('fetchBizCardImage', ...args);
     },
   },
 });

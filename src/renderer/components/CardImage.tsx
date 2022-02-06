@@ -30,7 +30,7 @@ export default ({ id, alt }: CardImageProps) => {
       fetchImage()
         .then((image) => setSrc(image))
         .catch((reason) => {
-          if (reason?.message === 'limit') {
+          if (reason?.message === 'Limit') {
             loadedRef.current = false;
           }
         });

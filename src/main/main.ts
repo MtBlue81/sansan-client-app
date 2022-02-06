@@ -16,6 +16,7 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
+import createHandlers from './handlers';
 
 export default class AppUpdater {
   constructor() {
@@ -72,8 +73,6 @@ const createWindow = async () => {
     icon: getAssetPath('icon.png'),
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
-      // TODO mainプロセスに移譲したい
-      webSecurity: false,
     },
   });
 
@@ -129,5 +128,6 @@ app
       // dock icon is clicked and there are no other windows open.
       if (mainWindow === null) createWindow();
     });
+    createHandlers();
   })
   .catch(console.log);

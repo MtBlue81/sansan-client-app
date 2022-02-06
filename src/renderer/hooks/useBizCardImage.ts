@@ -13,7 +13,7 @@ export default (id: Id) => {
   return useCallback(async () => {
     const apiKey = getApiKey();
     return fetchBizCardImage(id, { apiKey }).catch((e) => {
-      if (e.message === 'no auth') {
+      if (e.message === 'No auth') {
         clearApiKey();
         navigate('/apiKey', { replace: true });
       }

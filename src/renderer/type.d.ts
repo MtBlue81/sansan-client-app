@@ -10,3 +10,24 @@ declare type Owner = {
   name: string;
   email: Email;
 };
+
+declare type Pagination = {
+  hasMore: boolean;
+  nextPageToken: string;
+};
+
+type FetchBizCardList = (apiKey: string) => Promise<
+  | (Pagination & {
+      data: any;
+    })
+  | void
+>;
+
+interface Window {
+  electron: {
+    sansanClient: {
+      fetchBizCardList: FetchBizCardList;
+      fetchBizCardImage: (id: Id, apiKey: string) => Promise<unknown>;
+    }
+  };
+}
