@@ -1,0 +1,32 @@
+name: Create package
+
+on: [ workflow_dispatch ]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - macos-latest
+          - windows-latest
+          - ubuntu-latest
+        node_version:
+          - 16
+        architecture:
+          - x64
+    name: Node ${{ matrix.node_version }} - ${{ matrix.architecture }} on ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup node
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node_version }}
+          architecture: ${{ matrix.architecture }}
+          cache: 'npm'
+      - run: npm install
+      - run: npm run package
+      - uses: actions/upload-artifact@v2
+        with:
+          name: packages (${{ matrix.os }})
+          path: release/build/Sansan client*
