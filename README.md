@@ -2,9 +2,9 @@
 List the business cards you have registered in Sansan. 
 
 ## Install
-- Download release package.(for Mac only)  
+- Download release package.(Mac/Win)  
   https://github.com/MtBlue81/sansan-client-app/releases
-- Set it as a permitted app or right-click to open it.
+- Set it as a permitted app or right-click to open it on Mac.
 
 ## Development
 Clone the repo and install dependencies:
