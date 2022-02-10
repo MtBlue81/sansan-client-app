@@ -48,9 +48,15 @@ type FetchBizCardList = (config: ApiConfig) => Promise<
 const isElectron = 'electron' in window;
 const PAGE_LIMIT = 20;
 
-export const fetchBizCardList: FetchBizCardList = async ({ apiKey, nextPageToken }) => {
+export const fetchBizCardList: FetchBizCardList = async ({
+  apiKey,
+  nextPageToken,
+}) => {
   if (!apiKey || !isElectron) return;
-  return window.electron.sansanClient.fetchBizCardList(apiKey, { nextPageToken, limit: PAGE_LIMIT });
+  return window.electron.sansanClient.fetchBizCardList(apiKey, {
+    nextPageToken,
+    limit: PAGE_LIMIT,
+  });
 };
 
 type FetchBizCardImage = (id: Id, config: ApiConfig) => Promise<string>;
@@ -65,7 +71,9 @@ export const fetchBizCardImage: FetchBizCardImage = async (id, { apiKey }) => {
     });
   }
 
-  return window.electron.sansanClient.fetchBizCardImage(id, apiKey).then((base64) => {
-    return `data:image/jpeg;base64,${base64}`;
-  });
+  return window.electron.sansanClient
+    .fetchBizCardImage(id, apiKey)
+    .then((base64) => {
+      return `data:image/jpeg;base64,${base64}`;
+    });
 };

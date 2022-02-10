@@ -19,11 +19,14 @@ declare type Pagination = {
 declare type FetchBizCardListOption = {
   nextPageToken?: string;
   limit?: number;
-}
+};
 
-type FetchBizCardList = (apiKey: string, option?: FetchBizCardListOption) => Promise<
+type FetchBizCardList = (
+  apiKey: string,
+  option?: FetchBizCardListOption
+) => Promise<
   | (Pagination & {
-      data: any;
+      data: unknown;
     })
   | void
 >;
@@ -33,6 +36,6 @@ interface Window {
     sansanClient: {
       fetchBizCardList: FetchBizCardList;
       fetchBizCardImage: (id: Id, apiKey: string) => Promise<unknown>;
-    }
+    };
   };
 }

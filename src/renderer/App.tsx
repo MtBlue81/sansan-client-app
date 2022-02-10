@@ -1,8 +1,8 @@
 import { MemoryRouter as Router, Routes, Route } from 'react-router-dom';
 import { ChakraProvider, Center } from '@chakra-ui/react';
-import BizCardList from 'renderer/components/BizCardList';
-import ApiKeyForm from 'renderer/components/ApiKeyForm';
-import Header from 'renderer/components/Header';
+import BizCardList from './components/BizCardList';
+import ApiKeyForm from './components/ApiKeyForm';
+import Header from './components/Header';
 
 const ListPage = () => {
   return (

@@ -3,7 +3,7 @@ import BizCardComponent from './BizCard';
 import useBizCardList from '../hooks/useBizCardList';
 
 export default () => {
-  const [cards, {hasMore, fetchNext}] = useBizCardList();
+  const [cards, { hasMore, fetchNext }] = useBizCardList();
 
   return (
     <VStack
@@ -19,7 +19,11 @@ export default () => {
           </Box>
         );
       })}
-      {hasMore ? <Button onClick={fetchNext} width='80%' alignSelf={'center'}>More</Button> : null}
+      {hasMore ? (
+        <Button onClick={fetchNext} width="80%" alignSelf="center">
+          More
+        </Button>
+      ) : null}
     </VStack>
   );
 };
