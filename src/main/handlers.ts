@@ -71,14 +71,21 @@ const getImageData = (response: IncomingMessage) => {
 };
 
 export const createFetchBizCardListHandler = () => {
-  ipcMain.handle('fetchBizCardList', async  (_, apiKey) => {
-    const res = await request('https://api.sansan.com/v3.2/bizCards/search', apiKey);
+  ipcMain.handle('fetchBizCardList', async  (_, apiKey: string, { nextPageToken, limit }: FetchBizCardListOption = {}) => {
+    const params = new URLSearchParams();
+    if (nextPageToken) {
+      params.append('nextPageToken', nextPageToken);
+    }
+    if (limit) {
+      params.append('limit', `${limit}`);
+    }
+    const res = await request(`https://api.sansan.com/v3.2/bizCards/search?${params.toString()}`, apiKey);
     return getData(res);
   });
 };
 
 export const createFetchBizCardImageHandler = ()  => {
-  ipcMain.handle('fetchBizCardImage', async (_, id, apiKey) => {
+  ipcMain.handle('fetchBizCardImage', async (_, id: Id, apiKey: string) => {
     const res = await request(`https://api.sansan.com/v3.2/bizCards/${id}/image`, apiKey);
     return getImageData(res);
   });

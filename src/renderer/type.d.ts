@@ -16,7 +16,12 @@ declare type Pagination = {
   nextPageToken: string;
 };
 
-type FetchBizCardList = (apiKey: string) => Promise<
+declare type FetchBizCardListOption = {
+  nextPageToken?: string;
+  limit?: number;
+}
+
+type FetchBizCardList = (apiKey: string, option?: FetchBizCardListOption) => Promise<
   | (Pagination & {
       data: any;
     })

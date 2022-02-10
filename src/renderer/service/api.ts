@@ -35,6 +35,7 @@ export const clearApiKey = () => {
 
 type ApiConfig = {
   apiKey?: string;
+  nextPageToken?: string;
 };
 
 type FetchBizCardList = (config: ApiConfig) => Promise<
@@ -45,10 +46,11 @@ type FetchBizCardList = (config: ApiConfig) => Promise<
 >;
 
 const isElectron = 'electron' in window;
+const PAGE_LIMIT = 20;
 
-export const fetchBizCardList: FetchBizCardList = async ({ apiKey }) => {
+export const fetchBizCardList: FetchBizCardList = async ({ apiKey, nextPageToken }) => {
   if (!apiKey || !isElectron) return;
-  return window.electron.sansanClient.fetchBizCardList(apiKey);
+  return window.electron.sansanClient.fetchBizCardList(apiKey, { nextPageToken, limit: PAGE_LIMIT });
 };
 
 type FetchBizCardImage = (id: Id, config: ApiConfig) => Promise<string>;

@@ -1,9 +1,9 @@
-import { Box, VStack, Divider } from '@chakra-ui/react';
+import { Box, VStack, Divider, Button } from '@chakra-ui/react';
 import BizCardComponent from './BizCard';
 import useBizCardList from '../hooks/useBizCardList';
 
 export default () => {
-  const cards = useBizCardList();
+  const [cards, {hasMore, fetchNext}] = useBizCardList();
 
   return (
     <VStack
@@ -19,6 +19,7 @@ export default () => {
           </Box>
         );
       })}
+      {hasMore ? <Button onClick={fetchNext} width='80%' alignSelf={'center'}>More</Button> : null}
     </VStack>
   );
 };
