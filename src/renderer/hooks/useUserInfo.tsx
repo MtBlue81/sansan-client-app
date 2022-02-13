@@ -51,7 +51,6 @@ export const UserInfoProvider: React.FC<{
  fallback: React.ReactNode;
 }> = ({ fallback, children }) => {
   const {userInfo, apiKey, updateApiKey, clearUserInfo } = useUpdateUserInfo();
-  if  (!apiKey) return  null;
 
   return (
     <UserContext.Provider
