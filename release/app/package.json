@@ -1,7 +1,7 @@
 {
   "name": "sansan-client-app",
   "description": "Sansan client app for myself.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "./dist/main/main.js",
   "author": {
     "name": "MtBlue81",
