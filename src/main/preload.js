@@ -20,5 +20,8 @@ contextBridge.exposeInMainWorld('electron', {
     fetchBizCardImage(...args) {
       return callIpcMethod('fetchBizCardImage', ...args);
     },
+    fetchUserInfo(...args) {
+      return callIpcMethod('fetchUserInfo', ...args);
+    },
   },
 });

@@ -21,12 +21,12 @@ declare type FetchBizCardListOption = {
   limit?: number;
 };
 
-type FetchBizCardList = (
+type FetchBizCardList = <T>(
   apiKey: string,
   option?: FetchBizCardListOption
 ) => Promise<
   | (Pagination & {
-      data: unknown;
+      data: T;
     })
   | void
 >;
@@ -35,7 +35,8 @@ interface Window {
   electron: {
     sansanClient: {
       fetchBizCardList: FetchBizCardList;
-      fetchBizCardImage: (id: Id, apiKey: string) => Promise<unknown>;
+      fetchBizCardImage: <T>(id: Id, apiKey: string) => Promise<T>;
+      fetchUserInfo: <T>(apiKey: string) => Promise<T>;
     };
   };
 }

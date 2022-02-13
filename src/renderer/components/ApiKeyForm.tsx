@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-import { useNavigate } from 'react-router';
 import {
   Link,
   FormControl,
@@ -10,8 +9,8 @@ import {
   useToast,
   Stack,
 } from '@chakra-ui/react';
+import useUserInfo from '../hooks/useUserInfo';
 import type { BizCard } from '../models/BizCard';
-import { setApiKey, getApiKey } from '../service/api';
 
 export interface ApiKeyFormProps {
   card: BizCard;
@@ -19,24 +18,26 @@ export interface ApiKeyFormProps {
 
 export default () => {
   const toast = useToast({
-    title: 'APIキーを保存しました',
     position: 'top',
     isClosable: true,
     duration: 3000,
   });
-  const navigate = useNavigate();
+  const { apiKey, updateApiKey } = useUserInfo();
   const handleSubmit = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
       const key = e.target.apiKey.value;
       if (!key) {
         return;
       }
-      setApiKey(e.target.apiKey.value);
-      toast();
-      navigate('/');
+      try {
+        await updateApiKey(key);
+        toast({title: 'APIキーを保存しました'});
+      } catch(e) {
+        toast({title: 'APIキー保存に失敗しました', status: 'error'})
+      }
     },
-    [navigate, toast]
+    [updateApiKey, toast]
   );
 
   return (
@@ -47,7 +48,7 @@ export default () => {
           <Input
             name="apiKey"
             type="text"
-            defaultValue={getApiKey()}
+            defaultValue={apiKey}
             width="70vw"
             isRequired
             maxWidth="96"

@@ -1,13 +1,14 @@
-import { HStack } from '@chakra-ui/react';
-import { SettingsIcon } from '@chakra-ui/icons';
-import { Link } from 'react-router-dom';
+import { HStack, Button } from '@chakra-ui/react';
+import { ArrowForwardIcon } from '@chakra-ui/icons';
+import useUserInfo from '../hooks/useUserInfo';
 
 export default () => {
+  const {clearUserInfo} = useUserInfo();
   return (
-    <HStack justifyContent="flex-end" backgroundColor="gray.400">
-      <Link to="/apiKey" title="APIキー設定">
-        <SettingsIcon boxSize="6" mx="8" my="2" color="whiteAlpha.900" />
-      </Link>
+    <HStack justifyContent="flex-end" bgColor='gray.300'>
+      <Button  onClick={clearUserInfo}  rightIcon={<ArrowForwardIcon />} colorScheme='gray' size='sm' variant='outline' margin={2}>
+        Logout
+      </Button>
     </HStack>
   );
 };

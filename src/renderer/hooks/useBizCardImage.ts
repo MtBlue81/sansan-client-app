@@ -1,23 +1,17 @@
-import { useCallback, useEffect } from 'react';
-import { useNavigate } from 'react-router';
-import { getApiKey, clearApiKey, fetchBizCardImage } from '../service/api';
+import { useCallback } from 'react';
+import { getApiKey, fetchBizCardImage } from '../service/api';
+import useUserInfo from './useUserInfo';
 
 export default (id: Id) => {
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (!getApiKey()) {
-      navigate('/apiKey', { replace: true });
-    }
-  }, [navigate]);
+  const { clearUserInfo } = useUserInfo();
 
   return useCallback(async () => {
     const apiKey = getApiKey();
     return fetchBizCardImage(id, { apiKey }).catch((e) => {
       if (e.message === 'No auth') {
-        clearApiKey();
-        navigate('/apiKey', { replace: true });
+        clearUserInfo();
       }
       throw e;
     });
-  }, [id, navigate]);
+  }, [id, clearUserInfo]);
 };

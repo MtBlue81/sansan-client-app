@@ -112,7 +112,18 @@ export const createFetchBizCardImageHandler = () => {
   });
 };
 
+export const createFetchUserInfoHandler = () => {
+  ipcMain.handle('fetchUserInfo', async (_, apiKey: string) => {
+    const res = await request(
+      `https://api.sansan.com/v3.2/me`,
+      apiKey
+    );
+    return getData(res);
+  });
+};
+
 export default () => {
   createFetchBizCardListHandler();
   createFetchBizCardImageHandler();
+  createFetchUserInfoHandler();
 };

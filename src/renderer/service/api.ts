@@ -1,4 +1,5 @@
 import type { BizCard } from '../models/BizCard';
+import type { UserInfo } from '../models/UserInfo';
 
 const localStorageKey = 'sansan-api-key';
 // eslint-disable-next-line @typescript-eslint/naming-convention,no-underscore-dangle
@@ -28,17 +29,11 @@ export const setApiKey = (key: string) => {
   }
 };
 
-export const clearApiKey = () => {
-  _apiKey = undefined;
-  window.localStorage.removeItem(localStorageKey);
-};
-
 type ApiConfig = {
   apiKey?: string;
-  nextPageToken?: string;
 };
 
-type FetchBizCardList = (config: ApiConfig) => Promise<
+type FetchBizCardList = (config: ApiConfig & { nextPageToken?: string }) => Promise<
   | (Pagination & {
       data: BizCard[];
     })
@@ -77,3 +72,6 @@ export const fetchBizCardImage: FetchBizCardImage = async (id, { apiKey }) => {
       return `data:image/jpeg;base64,${base64}`;
     });
 };
+
+type FetchUserInfo = (apiKey: string) => Promise<UserInfo>;
+export const fetchUserInfo: FetchUserInfo = (apiKey) => window.electron.sansanClient.fetchUserInfo(apiKey);
