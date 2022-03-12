@@ -37,7 +37,7 @@ export default ({ card }: BizCardProps) => {
       justify={['center', 'center', 'flex-start']}
       align={['flex-start', 'flex-start', 'flex-start']}
     >
-      <Box flexShrink="0">
+      <Box flexShrink="0" width='160px' >
         <CardImage id={card.id} />
       </Box>
       <Box width={['100%', '100%', '45%']} flexShrink="0">

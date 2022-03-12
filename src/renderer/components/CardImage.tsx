@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { Skeleton, Image } from '@chakra-ui/react';
+import { Skeleton, Image as ChakraImage } from '@chakra-ui/react';
 import { useIntersectionObserver } from '@react-hookz/web';
 import useBizCardImage from '../hooks/useBizCardImage';
 
@@ -8,7 +8,12 @@ export interface CardImageProps {
   alt?: string;
 }
 
-const cardSize = {
+type Size  = {
+  height?: number | string;
+  width?: number | string;
+};
+
+const cardSize: Size = {
   height: '92px',
   width: '160px',
 };
@@ -19,7 +24,7 @@ export default ({ id, alt }: CardImageProps) => {
   const entry = useIntersectionObserver(ref, {
     rootMargin: '100px',
   });
-  const [src, setSrc] = useState('');
+  const [image, setImage] = useState<{src: string; size: Size; isPortrait?: boolean}>({src: '', size: {}});
 
   const fetchImage = useBizCardImage(id);
 
@@ -28,7 +33,15 @@ export default ({ id, alt }: CardImageProps) => {
     if (entry?.isIntersecting) {
       loadedRef.current = true;
       fetchImage()
-        .then((image) => setSrc(image))
+        .then((image) => {
+          const img = new Image();
+          img.src = image;
+          img.onload = () =>  {
+            const isPortrait = img.height > img.width;
+            const size = isPortrait ?  {height: cardSize.width, width: cardSize.height} :  cardSize;
+            setImage({ src: image, size, isPortrait });
+          }
+        })
         .catch((reason) => {
           if (reason?.message === 'Limit') {
             loadedRef.current = false;
@@ -37,7 +50,7 @@ export default ({ id, alt }: CardImageProps) => {
     }
   }, [entry?.isIntersecting, fetchImage]);
 
-  if (!src) {
+  if (!image.src) {
     return (
       <Skeleton
         startColor="gray.300"
@@ -49,12 +62,15 @@ export default ({ id, alt }: CardImageProps) => {
   }
 
   return (
-    <Image
-      src={src}
+    <ChakraImage
+      src={image.src}
       alt={alt}
       border="1px"
       borderColor="gray.200"
-      {...cardSize}
+      marginLeft={image.isPortrait ? '30px' : ''}
+      marginY={image.isPortrait ? '-32px' : ''}
+      style={{transform: image.isPortrait ? 'rotate(270deg)' : ''}}
+      {...image.size}
     />
   );
 };
